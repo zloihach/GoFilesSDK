@@ -1,8 +1,9 @@
 import requests
 
+
 class GoFileClient:
-    def __init__(self, token):
-        self.base_url = "https://api.gofile.io"
+    def __init__(self, base_url, token):
+        self.base_url = base_url
         self.token = token
 
     def _send_request(self, method, url, **kwargs):
@@ -41,7 +42,8 @@ class GoFileClient:
 
     def update_direct_link(self, content_id, direct_link_id, expire_time):
         data = {"expireTime": expire_time}
-        return self._send_request("PUT", f"{self.base_url}/contents/{content_id}/directlinks/{direct_link_id}", json=data)
+        return self._send_request("PUT", f"{self.base_url}/contents/{content_id}/directlinks/{direct_link_id}",
+                                  json=data)
 
     def delete_direct_link(self, content_id, direct_link_id):
         return self._send_request("DELETE", f"{self.base_url}/contents/{content_id}/directlinks/{direct_link_id}")
@@ -65,4 +67,3 @@ class GoFileClient:
 
     def reset_token(self, account_id):
         return self._send_request("POST", f"{self.base_url}/accounts/{account_id}/resettoken")
-
